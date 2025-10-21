@@ -13,6 +13,7 @@ public class Nina : MonoBehaviour
     [Header("Pulo")]
     public float forcaPulo = 5f;
     public float gravidade = -9.81f;
+    public float areaEsferaPe = 0.1f;
 
     [Header("Chão")]
     [SerializeField] private Transform peDoPersonagem;
@@ -61,7 +62,7 @@ public class Nina : MonoBehaviour
         animator.SetBool("Correr", estaCorrendo);
 
         // --- PULO E GRAVIDADE ---
-        estaNoChao = Physics.CheckSphere(peDoPersonagem.position, 0.1f, colisaoLayer);
+        estaNoChao = Physics.CheckSphere(peDoPersonagem.position, areaEsferaPe, colisaoLayer);
         animator.SetBool("EstaNoChao", estaNoChao);
 
         if (estaNoChao && Input.GetKeyDown(KeyCode.Space))
