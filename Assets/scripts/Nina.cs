@@ -84,12 +84,6 @@ public class Nina : MonoBehaviour
     public void OnCaptured(Transform luisa)
     {
 
-        if (animator != null)
-        {
-            animator.SetTrigger("Capturada");
-            animator.SetBool("Capturou", true);
-        }
-
         if (GameOverMenu.Instance != null)
         {
             GameOverMenu.Instance.MostrarGameOver("A Luisa te capturou!");

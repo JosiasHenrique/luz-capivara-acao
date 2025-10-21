@@ -29,7 +29,7 @@ public class GameOverMenu : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void VoltarMenu()
+    public void VoltarMenuPrincipal()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("MenuPrincipal");
