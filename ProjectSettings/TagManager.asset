@@ -7,6 +7,9 @@ TagManager:
   - Enemy
   - DestroyZone
   - Wall
+  - Mola
+  - Queda
+  - Plataforma
   layers:
   - Default
   - TransparentFX

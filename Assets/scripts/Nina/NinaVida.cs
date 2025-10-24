@@ -1,0 +1,45 @@
+﻿using System;
+using UnityEngine;
+
+public class NinaVida : MonoBehaviour
+{
+    public float maxVida = 100f;
+    private float vidaAtual;
+
+    [Header("Áudio")]
+    public AudioSource danoAudioSource;
+    public AudioClip somDano;
+
+    public event Action<float, float> OnVidaMudou;
+
+    private void Start()
+    {
+        vidaAtual = maxVida;
+    }
+
+    public void TakeDamage(float amount)
+    {
+        vidaAtual -= amount;
+        vidaAtual = Mathf.Clamp(vidaAtual, 0, maxVida);
+
+        Debug.Log($"Nina levou dano! Vida atual: {vidaAtual}");
+
+        if (danoAudioSource != null && somDano != null)
+            danoAudioSource.PlayOneShot(somDano);
+
+        OnVidaMudou?.Invoke(vidaAtual, maxVida);
+
+        if (vidaAtual <= 0)
+            Die();
+    }
+
+    private void Die()
+    {
+        Debug.Log("Nina morreu");
+
+        if (GameOverMenu.Instance != null)
+        {
+            GameOverMenu.Instance.MostrarGameOver("A Nina morreu!");
+        }
+    }
+}
