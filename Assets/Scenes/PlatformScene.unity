@@ -302,7 +302,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 9bb75b6615d6aa74586de51873527652, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1092,6 +1092,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5159246714541344306, guid: ce3cc2b03127c1e4f812d4e4555edc29, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5192827166008002828, guid: ce3cc2b03127c1e4f812d4e4555edc29, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -1379,7 +1383,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 209861055}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f41966233b7d323479865924916d3708, type: 3}
   m_Name: 
@@ -1394,7 +1398,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 209861055}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 1.3
@@ -1533,7 +1537,7 @@ Transform:
   m_GameObject: {fileID: 264089029}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 50, y: -3, z: 8}
+  m_LocalPosition: {x: 50, y: -2.17, z: 8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1794,7 +1798,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 0d4f8b2b6fb73454696c4ff401cd98be, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.03
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -2565,7 +2569,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 0.22647041, z: 2}
+  m_Size: {x: 2.1, y: 0.2, z: 2.1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &425639187
 MonoBehaviour:
@@ -3648,7 +3652,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 0.22647041, z: 2}
+  m_Size: {x: 2.1, y: 0.2, z: 2.1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &766679051
 MonoBehaviour:
@@ -4162,9 +4166,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35516a4c9c2e6d241bf1cc24d41912dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Nina
-  velocidadeAndando: 1
-  velocidadeCorrendo: 2
-  controleAereo: 0.5
+  velocidadeAndando: 1.5
+  velocidadeCorrendo: 3.5
   forcaPulo: 6
   gravidade: -9.81
   areaEsferaPe: 0.1
@@ -4205,7 +4208,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 75bb1a1c31085e5419c73599beb6eb4a, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.353
+  m_Volume: 0.4
   m_Pitch: 1.5
   Loop: 1
   Mute: 0
@@ -4302,7 +4305,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -5141,6 +5144,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 59380afab3e333d489f613c66850e28f, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 1cf233e11d78f4648bff254fe4100f87, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -6818,7 +6825,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: cf7576041edaac747b90176afed23be0, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -7084,7 +7091,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: cf7576041edaac747b90176afed23be0, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -8962,7 +8969,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: cf7576041edaac747b90176afed23be0, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -9407,7 +9414,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -9590,7 +9597,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: cf7576041edaac747b90176afed23be0, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -9698,7 +9705,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 0.22647041, z: 2}
+  m_Size: {x: 2.1, y: 0.2, z: 2.1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2024488798
 MonoBehaviour:
@@ -10167,7 +10174,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: ed9a866c7e011af4cb034390d9ec9a64, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -10410,12 +10417,36 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1074755841}
     - target: {fileID: 597110929980518024, guid: b69925c825a998c4c929a9f209078f1d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 597110929980518024, guid: b69925c825a998c4c929a9f209078f1d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 597110929980518024, guid: b69925c825a998c4c929a9f209078f1d, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 597110929980518024, guid: b69925c825a998c4c929a9f209078f1d, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 597110929980518024, guid: b69925c825a998c4c929a9f209078f1d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 597110929980518024, guid: b69925c825a998c4c929a9f209078f1d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 597110929980518024, guid: b69925c825a998c4c929a9f209078f1d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -836.3
+      value: -750
       objectReference: {fileID: 0}
     - target: {fileID: 597110929980518024, guid: b69925c825a998c4c929a9f209078f1d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 447.3
+      value: 431.0001
       objectReference: {fileID: 0}
     - target: {fileID: 1613041835854175628, guid: b69925c825a998c4c929a9f209078f1d, type: 3}
       propertyPath: m_Camera
@@ -10434,12 +10465,36 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5086860441876199043, guid: b69925c825a998c4c929a9f209078f1d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5086860441876199043, guid: b69925c825a998c4c929a9f209078f1d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5086860441876199043, guid: b69925c825a998c4c929a9f209078f1d, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5086860441876199043, guid: b69925c825a998c4c929a9f209078f1d, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5086860441876199043, guid: b69925c825a998c4c929a9f209078f1d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 5086860441876199043, guid: b69925c825a998c4c929a9f209078f1d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5086860441876199043, guid: b69925c825a998c4c929a9f209078f1d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -964.2
+      value: -880
       objectReference: {fileID: 0}
     - target: {fileID: 5086860441876199043, guid: b69925c825a998c4c929a9f209078f1d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 445.8
+      value: 431
       objectReference: {fileID: 0}
     - target: {fileID: 5502780031852836008, guid: b69925c825a998c4c929a9f209078f1d, type: 3}
       propertyPath: m_UiScaleMode

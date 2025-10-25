@@ -9,9 +9,8 @@ public class Nina : MonoBehaviour
 
     // --- MOVIMENTO ---
     [Header("Velocidades")]
-    public float velocidadeAndando = 1f;
-    public float velocidadeCorrendo = 2f;
-    public float controleAereo = 0.5f;
+    public float velocidadeAndando = 1.5f;
+    public float velocidadeCorrendo = 3.5f;
 
     // --- PULO ---
     [Header("Pulo")]
@@ -73,7 +72,7 @@ public class Nina : MonoBehaviour
 
         Vector3 input = new Vector3(horizontal, 0, vertical);
         input = myCamera.TransformDirection(input);
-        input.y = 0;
+       
         input.Normalize();
 
         bool estaAndando = input != Vector3.zero && estaNoChao;
@@ -81,25 +80,20 @@ public class Nina : MonoBehaviour
 
         float velocidade = estaCorrendo ? velocidadeCorrendo : velocidadeAndando;
 
-        // Controle no ar: mistura entre o movimento anterior e o novo input
+
         if (estaNoChao)
         {
             direcaoMovimento = input * velocidade;
         }
         else
         {
-            direcaoMovimento = Vector3.Lerp(direcaoMovimento, input * velocidade, controleAereo * Time.deltaTime * 5f);
+            direcaoMovimento = input * velocidadeCorrendo;
         }
 
-        // Rotação suave (só gira se estiver se movendo)
         if (input != Vector3.zero)
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(input), Time.deltaTime * 10f);
 
-        // Aplica movimento horizontal
-        controller.Move(direcaoMovimento * Time.deltaTime);
-
         // --- ANIMAÇÕES ---
-        // Só ativa "Mover" e "Correr" se estiver tocando o chão
         animator.SetBool("Mover", estaAndando);
         animator.SetBool("Correr", estaCorrendo);
     }
@@ -115,9 +109,10 @@ public class Nina : MonoBehaviour
         animator.SetBool("EstaNoChao", estaNoChao);
     }
 
+
     private void ControlarPulo()
     {
-        if (estaNoChao && Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && estaNoChao)
         {
             velocidadeY = forcaPulo;
             animator.SetTrigger("Pular");
@@ -125,17 +120,21 @@ public class Nina : MonoBehaviour
             if (efeitosAudioSource != null && somPulo != null)
                 efeitosAudioSource.PlayOneShot(somPulo, 0.3f);
         }
+
     }
+
+   
 
     private void AplicarGravidade()
     {
         if (estaNoChao && velocidadeY < 0)
-            velocidadeY = -2f; 
+            velocidadeY = -2f;
 
         velocidadeY += gravidade * Time.deltaTime;
 
-        // Aplica movimento vertical
-        controller.Move(Vector3.up * velocidadeY * Time.deltaTime);
+        Vector3 movimentoFinal = direcaoMovimento;
+        movimentoFinal.y = velocidadeY;
+        controller.Move(movimentoFinal * Time.deltaTime);
     }
 
     // =====================================================
