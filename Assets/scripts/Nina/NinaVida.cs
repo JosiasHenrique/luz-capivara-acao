@@ -10,6 +10,9 @@ public class NinaVida : MonoBehaviour
     public AudioSource danoAudioSource;
     public AudioClip somDano;
 
+    public DanoTela danoTela;
+
+
     public event Action<float, float> OnVidaMudou;
 
     private void Start()
@@ -26,6 +29,10 @@ public class NinaVida : MonoBehaviour
 
         if (danoAudioSource != null && somDano != null)
             danoAudioSource.PlayOneShot(somDano);
+
+        if (danoTela != null)
+            danoTela.Flash();
+
 
         OnVidaMudou?.Invoke(vidaAtual, maxVida);
 

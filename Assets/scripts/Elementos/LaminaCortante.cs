@@ -49,6 +49,7 @@ public class LaminaCortante : MonoBehaviour
             }
 
         }
+
     }
 
 }

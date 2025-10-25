@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
+using UnityEngine.Audio;
 
 public class QuedaPlataforma : MonoBehaviour
 {
@@ -7,12 +8,15 @@ public class QuedaPlataforma : MonoBehaviour
 
     private Rigidbody rb;
     private bool caiu = false;
+    private AudioSource audioSource;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         if (rb != null)
             rb.isKinematic = true;
+
+        audioSource = GetComponent<AudioSource>();
     }
 
 
@@ -37,6 +41,9 @@ public class QuedaPlataforma : MonoBehaviour
             tempo += Time.deltaTime;
             yield return null;
         }
+
+        if (audioSource != null && audioSource.clip != null)
+            audioSource.Play();
 
         rb.isKinematic = false;
         Destroy(gameObject, 2f);

@@ -2,32 +2,49 @@
 
 public class Nina : MonoBehaviour
 {
+    // --- COMPONENTES ---
     private CharacterController controller;
     private Animator animator;
     private Transform myCamera;
 
+    // --- MOVIMENTO ---
     [Header("Velocidades")]
     public float velocidadeAndando = 1f;
     public float velocidadeCorrendo = 2f;
+    public float controleAereo = 0.5f;
 
+    // --- PULO ---
     [Header("Pulo")]
     public float forcaPulo = 5f;
     public float gravidade = -9.81f;
     public float areaEsferaPe = 0.1f;
 
+    // --- PULO COM MOLA ---
     [Header("Pulo Mola")]
     public float impulso = 10f;
 
+    // --- CHÃO ---
     [Header("Chão")]
     [SerializeField] private Transform peDoPersonagem;
     [SerializeField] private LayerMask colisaoLayer;
 
-    [Header("Áudio")]
+    // --- ÁUDIO ---
+    [Header("Som Corrida")]
     public AudioSource runAudio;
 
+    [Header("Efeitos Sonoros")]
+    public AudioSource efeitosAudioSource; 
+    public AudioClip somPulo;
 
+
+    // --- VARIÁVEIS INTERNAS ---
     private bool estaNoChao;
     private float velocidadeY;
+    private Vector3 direcaoMovimento;
+
+    // =====================================================
+    //                      CICLO DE VIDA
+    // =====================================================
 
     void Start()
     {
@@ -38,113 +55,141 @@ public class Nina : MonoBehaviour
 
     void Update()
     {
+        AtualizarEstadoChao();
+        Movimentar();
+        ControlarAudioCorrida();
+        ControlarPulo();
+        AplicarGravidade();
+    }
 
-        // --- MOVIMENTO ---
+    // =====================================================
+    //                      MOVIMENTO
+    // =====================================================
+
+    private void Movimentar()
+    {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        Vector3 movimento = new Vector3(horizontal, 0, vertical);
+        Vector3 input = new Vector3(horizontal, 0, vertical);
+        input = myCamera.TransformDirection(input);
+        input.y = 0;
+        input.Normalize();
 
-        // Converte direção relativa à câmera
-        movimento = myCamera.TransformDirection(movimento);
-        movimento.y = 0;
+        bool estaAndando = input != Vector3.zero && estaNoChao;
+        bool estaCorrendo = Input.GetKey(KeyCode.LeftShift) && estaAndando;
 
-        // Define velocidade dependendo do Shift
-        bool estaCorrendo = Input.GetKey(KeyCode.LeftShift) && movimento != Vector3.zero && estaNoChao;
-        float speed = estaCorrendo ? velocidadeCorrendo : velocidadeAndando;
+        float velocidade = estaCorrendo ? velocidadeCorrendo : velocidadeAndando;
 
-        // Move a personagem horizontalmente
-        controller.Move(movimento * speed * Time.deltaTime);
-
-        // Rotação suave na direção do movimento
-        if (movimento != Vector3.zero)
+        // Controle no ar: mistura entre o movimento anterior e o novo input
+        if (estaNoChao)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movimento), Time.deltaTime * 10f);
-        }
-
-        // Atualiza animações
-        animator.SetBool("Mover", movimento != Vector3.zero);
-        animator.SetBool("Correr", estaCorrendo);
-
-        // --- ÁUDIO DE CORRIDA ---
-        if (estaCorrendo && estaNoChao) // só toca se estiver correndo e no chão
-        {
-            if (!runAudio.isPlaying)
-                runAudio.Play();
+            direcaoMovimento = input * velocidade;
         }
         else
         {
-            if (runAudio.isPlaying)
-                runAudio.Stop();
+            direcaoMovimento = Vector3.Lerp(direcaoMovimento, input * velocidade, controleAereo * Time.deltaTime * 5f);
         }
 
-        // --- PULO E GRAVIDADE ---
+        // Rotação suave (só gira se estiver se movendo)
+        if (input != Vector3.zero)
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(input), Time.deltaTime * 10f);
+
+        // Aplica movimento horizontal
+        controller.Move(direcaoMovimento * Time.deltaTime);
+
+        // --- ANIMAÇÕES ---
+        // Só ativa "Mover" e "Correr" se estiver tocando o chão
+        animator.SetBool("Mover", estaAndando);
+        animator.SetBool("Correr", estaCorrendo);
+    }
+
+
+    // =====================================================
+    //                      CHÃO / PULO
+    // =====================================================
+
+    private void AtualizarEstadoChao()
+    {
         estaNoChao = Physics.CheckSphere(peDoPersonagem.position, areaEsferaPe, colisaoLayer);
         animator.SetBool("EstaNoChao", estaNoChao);
+    }
 
+    private void ControlarPulo()
+    {
         if (estaNoChao && Input.GetKeyDown(KeyCode.Space))
         {
             velocidadeY = forcaPulo;
             animator.SetTrigger("Pular");
 
+            if (efeitosAudioSource != null && somPulo != null)
+                efeitosAudioSource.PlayOneShot(somPulo, 0.3f);
         }
-
-
-        // Aplica gravidade
-        if (velocidadeY > gravidade)
-        {
-            velocidadeY += gravidade * Time.deltaTime;
-        }
-
-        controller.Move(new Vector3(0, velocidadeY, 0) * Time.deltaTime);
-
     }
 
-    // Método chamado quando Nina é capturada pela Luisa
-    public void OnCaptured(Transform luisa)
+    private void AplicarGravidade()
     {
+        if (estaNoChao && velocidadeY < 0)
+            velocidadeY = -2f; 
 
-        if (GameOverMenu.Instance != null)
+        velocidadeY += gravidade * Time.deltaTime;
+
+        // Aplica movimento vertical
+        controller.Move(Vector3.up * velocidadeY * Time.deltaTime);
+    }
+
+    // =====================================================
+    //                      ÁUDIO
+    // =====================================================
+
+    private void ControlarAudioCorrida()
+    {
+        bool estaCorrendo = animator.GetBool("Correr");
+
+        if (estaCorrendo && estaNoChao)
         {
-            GameOverMenu.Instance.MostrarGameOver("A Luisa te capturou!");
+            if (!runAudio.isPlaying)
+                runAudio.Play();
+        }
+        else if (runAudio.isPlaying)
+        {
+            runAudio.Stop();
         }
     }
+
+    // =====================================================
+    //                      COLISÕES
+    // =====================================================
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Queda"))
         {
             animator.SetTrigger("CaindoMola");
-            if (GameOverMenu.Instance != null)
-            {
-                GameOverMenu.Instance.MostrarGameOver("Você caiu do mapa!");
-            }
+            GameOverMenu.Instance?.MostrarGameOver("Você caiu do mapa!");
         }
     }
-
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-
         if (hit.collider.CompareTag("Plataforma"))
         {
-            QuedaPlataforma plataforma = hit.collider.GetComponent<QuedaPlataforma>();
-            if (plataforma != null)
-                plataforma.IniciarQueda();
+            hit.collider.GetComponent<QuedaPlataforma>()?.IniciarQueda();
         }
-
-        if (hit.collider.CompareTag("Mola"))
+        else if (hit.collider.CompareTag("Mola"))
         {
-
             velocidadeY = impulso;
             animator.SetTrigger("CaindoMola");
-
-            Mola mola = hit.collider.GetComponent<Mola>();
-            if (mola != null)
-                mola.PisarNaMola();
-
+            hit.collider.GetComponent<Mola>()?.PisarNaMola();
         }
     }
 
-}
+    // =====================================================
+    //                      GAME OVER
+    // =====================================================
 
+    public void OnCaptured(Transform luisa)
+    {
+        GameOverMenu.Instance?.MostrarGameOver("A Luisa te capturou!");
+    }
+}

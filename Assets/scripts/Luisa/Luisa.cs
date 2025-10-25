@@ -3,6 +3,9 @@ using UnityEngine.AI;
 
 public class Luisa : MonoBehaviour
 {
+    // =====================================================
+    //                      REFERÊNCIAS
+    // =====================================================
     [Header("Alvo")]
     public Transform nina;
 
@@ -13,8 +16,14 @@ public class Luisa : MonoBehaviour
     private NavMeshAgent agent;
     private Animator animator;
 
+    // =====================================================
+    //                      VARIÁVEIS INTERNAS
+    // =====================================================
     private bool capturou = false;
 
+    // =====================================================
+    //                      CICLO DE VIDA
+    // =====================================================
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -29,52 +38,68 @@ public class Luisa : MonoBehaviour
 
         float distancia = Vector3.Distance(transform.position, nina.position);
 
-        // --- MOVIMENTO ---
-        if (!capturou) // só move se ainda não capturou
-        {
-            if (distancia > distanciaCaptura)
-            {
-                agent.isStopped = false;
-                agent.SetDestination(nina.position);
-            }
-            else
-            {
-                agent.isStopped = true;
-            }
-        }
+        AtualizarMovimento(distancia);
+        AtualizarAnimacoes();
+        ChecarAtordoamento(distancia);
+        ChecarCaptura(distancia);
+    }
 
-        // --- ANIMAÇÕES DE MOVIMENTO ---
+    // =====================================================
+    //                      MOVIMENTO
+    // =====================================================
+    private void AtualizarMovimento(float distancia)
+    {
+        if (capturou) return;
+
+        if (distancia > distanciaCaptura)
+        {
+            agent.isStopped = false;
+            agent.SetDestination(nina.position);
+        }
+        else
+        {
+            agent.isStopped = true;
+        }
+    }
+
+    // =====================================================
+    //                      ANIMAÇÕES
+    // =====================================================
+    private void AtualizarAnimacoes()
+    {
         bool estaAndando = agent.velocity.magnitude > 0.1f;
         animator.SetBool("Mover", estaAndando);
         animator.SetBool("Correr", estaAndando);
+    }
 
-        // --- ATORDOAR ---
-        if (!capturou && distancia <= distanciaAtordoada)
+    private void ChecarAtordoamento(float distancia)
+    {
+        if (capturou || distancia > distanciaAtordoada) return;
+
+        AnimatorStateInfo estadoAtual = animator.GetCurrentAnimatorStateInfo(0);
+        if (!estadoAtual.IsName("Atordoada"))
         {
-            AnimatorStateInfo estadoAtual = animator.GetCurrentAnimatorStateInfo(0);
-            if (!estadoAtual.IsName("Atordoada"))
-            {
-                animator.SetTrigger("Atordoada");
-            }
+            animator.SetTrigger("Atordoada");
         }
+            
+    }
 
+    // =====================================================
+    //                      CAPTURA
+    // =====================================================
+    private void ChecarCaptura(float distancia)
+    {
+        if (capturou || distancia > distanciaCaptura) return;
 
-        // --- CAPTURA ---
-        if (!capturou && distancia <= distanciaCaptura)
-        {
-            capturou = true;
-            agent.isStopped = true;
-            agent.velocity = Vector3.zero;
-            animator.SetTrigger("Agarrar");
-            animator.SetBool("Capturou", true);
+        capturou = true;
+        agent.isStopped = true;
+        agent.velocity = Vector3.zero;
 
-            Nina ninaScript = nina.GetComponent<Nina>();
-            if (ninaScript != null)
-            {
-                ninaScript.OnCaptured(transform);
+        animator.SetTrigger("Agarrar");
+        animator.SetBool("Capturou", true);
 
-            }
-        }
-
+        Nina ninaScript = nina.GetComponent<Nina>();
+        if (ninaScript != null)
+            ninaScript.OnCaptured(transform);
     }
 }

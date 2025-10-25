@@ -6,15 +6,19 @@ public class Mola : MonoBehaviour
     public float compressao = 0.5f; // quanto ela comprime
     public float duracao = 0.1f;    // tempo de compressão
     private Vector3 escalaOriginal;
+    public AudioSource audioSource;
 
     private void Start()
     {
         escalaOriginal = transform.localScale;
+
     }
 
     public void PisarNaMola()
     {
         StartCoroutine(AnimarMola());
+        if (audioSource != null && audioSource.clip != null)
+            audioSource.Play();
     }
 
     private IEnumerator AnimarMola()
