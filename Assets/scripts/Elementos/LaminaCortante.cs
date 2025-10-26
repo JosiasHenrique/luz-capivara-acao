@@ -35,13 +35,6 @@ public class LaminaCortante : MonoBehaviour
                 nina.TakeDamage(damage);
             }
 
-            // Toca animação de dano
-            var animator = other.GetComponent<Animator>();
-            if (animator != null)
-            {
-                animator.SetTrigger("LevouDano");
-            }
-
             // Som da lâmina cortando
             if (audioSourceLamina != null && somLamina != null)
             {

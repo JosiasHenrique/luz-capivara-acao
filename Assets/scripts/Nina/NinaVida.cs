@@ -12,6 +12,7 @@ public class NinaVida : MonoBehaviour
 
     public DanoTela danoTela;
 
+    public Animator animator;
 
     public event Action<float, float> OnVidaMudou;
 
@@ -25,7 +26,8 @@ public class NinaVida : MonoBehaviour
         vidaAtual -= amount;
         vidaAtual = Mathf.Clamp(vidaAtual, 0, maxVida);
 
-        Debug.Log($"Nina levou dano! Vida atual: {vidaAtual}");
+        if (animator != null)
+            animator.SetTrigger("LevouDano"); 
 
         if (danoAudioSource != null && somDano != null)
             danoAudioSource.PlayOneShot(somDano);
