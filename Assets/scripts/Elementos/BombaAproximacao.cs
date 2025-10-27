@@ -19,6 +19,7 @@ public class BombaAproximacao : MonoBehaviour
     public Color alertColor = Color.red;
     public AudioSource warningBeep;
     public AudioClip explosionClip;
+    public GameObject explosionEffect;
 
     [Header("Animação de escala")]
     public float scaleMultiplier = 1.4f;
@@ -87,6 +88,13 @@ public class BombaAproximacao : MonoBehaviour
         if (explosionClip != null)
         {
             AudioSource.PlayClipAtPoint(explosionClip, transform.position);
+        }
+
+        if (explosionEffect)
+        {
+            ParticleSystem psClone = Instantiate(explosionEffect, transform.position, Quaternion.identity).GetComponent<ParticleSystem>();
+            Destroy(psClone.gameObject, 1f);
+
         }
 
         Collider[] cols = Physics.OverlapSphere(transform.position, explosionRadius);
