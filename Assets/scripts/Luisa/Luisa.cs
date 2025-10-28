@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class Luisa : MonoBehaviour
@@ -15,6 +16,7 @@ public class Luisa : MonoBehaviour
 
     private NavMeshAgent agent;
     private Animator animator;
+    private bool pulando = false;
 
     // =====================================================
     //                      VARIÁVEIS INTERNAS
@@ -30,6 +32,7 @@ public class Luisa : MonoBehaviour
         animator = GetComponent<Animator>();
 
         agent.stoppingDistance = distanciaCaptura;
+        agent.autoTraverseOffMeshLink = false;
     }
 
     void Update()
@@ -42,6 +45,11 @@ public class Luisa : MonoBehaviour
         AtualizarAnimacoes();
         ChecarAtordoamento(distancia);
         ChecarCaptura(distancia);
+
+        if (agent.isOnOffMeshLink && !pulando)
+        {
+            StartCoroutine(FazerPulo());
+        }
     }
 
     // =====================================================
@@ -101,5 +109,38 @@ public class Luisa : MonoBehaviour
         Nina ninaScript = nina.GetComponent<Nina>();
         if (ninaScript != null)
             ninaScript.OnCaptured(transform);
+    }
+
+    // =====================================================
+    //                 PULO SOBRE NAVMESH LINK
+    // =====================================================
+    private IEnumerator FazerPulo()
+    {
+        pulando = true;
+        agent.isStopped = true;
+
+        animator.SetTrigger("Pular"); // ativa a animação
+
+        // dados do link
+        OffMeshLinkData data = agent.currentOffMeshLinkData;
+        Vector3 startPos = agent.transform.position;
+        Vector3 endPos = data.endPos + Vector3.up * agent.baseOffset;
+
+        float duracao = 1.0f; // tempo total do pulo (ajuste conforme animação)
+        float tempo = 0f;
+        float altura = 2f; // altura máxima
+
+        while (tempo < duracao)
+        {
+            float t = tempo / duracao;
+            float alturaPulo = Mathf.Sin(Mathf.PI * t) * altura;
+            agent.transform.position = Vector3.Lerp(startPos, endPos, t) + Vector3.up * alturaPulo;
+            tempo += Time.deltaTime;
+            yield return null;
+        }
+
+        agent.CompleteOffMeshLink();
+        agent.isStopped = false;
+        pulando = false;
     }
 }
