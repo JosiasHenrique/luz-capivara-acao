@@ -119,16 +119,16 @@ public class Luisa : MonoBehaviour
         pulando = true;
         agent.isStopped = true;
 
-        animator.SetTrigger("Pular"); // ativa a animação
+        animator.SetTrigger("Pular");
 
         // dados do link
         OffMeshLinkData data = agent.currentOffMeshLinkData;
         Vector3 startPos = agent.transform.position;
         Vector3 endPos = data.endPos + Vector3.up * agent.baseOffset;
 
-        float duracao = 1.0f; // tempo total do pulo (ajuste conforme animação)
+        float duracao = 1.0f;
         float tempo = 0f;
-        float altura = 2f; // altura máxima
+        float altura = 2f; 
 
         while (tempo < duracao)
         {
