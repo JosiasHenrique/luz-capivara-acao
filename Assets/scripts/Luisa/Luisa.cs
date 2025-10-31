@@ -14,6 +14,10 @@ public class Luisa : MonoBehaviour
     public float distanciaAtordoada = 3f;
     public float distanciaCaptura = 1f;
 
+    [Header("Som de Proximidade")]
+    public AudioSource batimentoAudio;
+    public float distanciaSomMax = 10f;
+
     private NavMeshAgent agent;
     private Animator animator;
     private bool pulando = false;
@@ -40,6 +44,7 @@ public class Luisa : MonoBehaviour
         if (nina == null) return;
 
         float distancia = Vector3.Distance(transform.position, nina.position);
+        ControlarSomProximidade(distancia);
 
         AtualizarMovimento(distancia);
         AtualizarAnimacoes();
@@ -69,6 +74,26 @@ public class Luisa : MonoBehaviour
             agent.isStopped = true;
         }
     }
+
+    private void ControlarSomProximidade(float distancia)
+    {
+        if (batimentoAudio == null || capturou) return;
+
+        float volume = Mathf.Clamp01(Mathf.Exp(-distancia / (distanciaSomMax / 2f)));
+        batimentoAudio.volume = volume;
+
+        if (volume > 0.01f)
+        {
+            if (!batimentoAudio.isPlaying)
+                batimentoAudio.Play();
+        }
+        else
+        {
+            if (batimentoAudio.isPlaying)
+                batimentoAudio.Stop();
+        }
+    }
+
 
     // =====================================================
     //                      ANIMAÇÕES
@@ -105,6 +130,8 @@ public class Luisa : MonoBehaviour
 
         animator.SetTrigger("Agarrar");
         animator.SetBool("Capturou", true);
+        if (batimentoAudio.isPlaying)
+            batimentoAudio.Stop();
 
         Nina ninaScript = nina.GetComponent<Nina>();
         if (ninaScript != null)

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class DragaoVoador : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class DragaoVoador : MonoBehaviour
     public float velocidade = 5f;
     public float distanciaMinima = 1f;
     public bool loop = true;
+
+    public AudioSource audioSource;
 
     private int pontoAtual = 0;
     private Animator animator;
@@ -35,6 +38,8 @@ public class DragaoVoador : MonoBehaviour
 
         if (Vector3.Distance(transform.position, alvo.position) < distanciaMinima)
         {
+            audioSource.Play();
+            pontoAtual++;
             pontoAtual++;
 
             if (pontoAtual >= pontos.Length)
