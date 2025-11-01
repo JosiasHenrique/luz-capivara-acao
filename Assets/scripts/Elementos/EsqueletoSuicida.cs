@@ -125,9 +125,17 @@ public class EsqueletoSuicida : MonoBehaviour
             audioSource.Stop();
 
         // toca som de explosão
-        if (explodeClip)
+        if (explodeClip != null)
         {
-            AudioSource.PlayClipAtPoint(explodeClip, transform.position);
+            GameObject tempAudio = new GameObject("TempExplosionSound");
+            AudioSource a = tempAudio.AddComponent<AudioSource>();
+
+            a.clip = explodeClip;
+            a.volume = 0.8f;     
+            a.spatialBlend = 0f; 
+            a.Play();
+
+            Destroy(tempAudio, explodeClip.length);
         }
 
         if (explosionEffect)

@@ -1,9 +1,9 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using UnityEngine;
 
 public class BombaAproximacao : MonoBehaviour
 {
-    [Header("DetecÁ„o e explos„o")]
+    [Header("Detec√ß√£o e explos√£o")]
     public float detectionRadius = 3f;
     public float explosionForce = 700f;
     public float explosionRadius = 5f;
@@ -21,7 +21,7 @@ public class BombaAproximacao : MonoBehaviour
     public AudioClip explosionClip;
     public GameObject explosionEffect;
 
-    [Header("AnimaÁ„o de escala")]
+    [Header("Anima√ß√£o de escala")]
     public float scaleMultiplier = 1.4f;
     public float pulseSpeed = 6f;
 
@@ -87,8 +87,17 @@ public class BombaAproximacao : MonoBehaviour
 
         if (explosionClip != null)
         {
-            AudioSource.PlayClipAtPoint(explosionClip, transform.position);
+            GameObject tempAudio = new GameObject("TempExplosionSound");
+            AudioSource a = tempAudio.AddComponent<AudioSource>();
+
+            a.clip = explosionClip;
+            a.volume = 0.8f;   
+            a.spatialBlend = 0f;  
+            a.Play();
+
+            Destroy(tempAudio, explosionClip.length);
         }
+
 
         if (explosionEffect)
         {
