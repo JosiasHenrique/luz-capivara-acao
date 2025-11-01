@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
 public class CutsceneEndTransition : MonoBehaviour
 {
@@ -21,19 +20,27 @@ public class CutsceneEndTransition : MonoBehaviour
     {
         director = GetComponent<PlayableDirector>();
         if (director != null)
+        {
+            // Quando a cutscene termina, chama o método
             director.stopped += OnCutsceneEnd;
+        }
         else
-            Debug.LogWarning("⚠️ Nenhum PlayableDirector encontrado neste GameObject!");
+        {
+            Debug.LogWarning("Nenhum PlayableDirector encontrado neste GameObject!");
+        }
     }
 
     private void OnCutsceneEnd(PlayableDirector obj)
     {
-        StartCoroutine(GoToNextScene());
+        Invoke(nameof(GoToNextScene), delayAfterCutscene);
     }
 
-    private IEnumerator GoToNextScene()
+    private void GoToNextScene()
     {
-        yield return new WaitForSeconds(delayAfterCutscene);
+        if (sceneFader == null)
+        {
+            sceneFader = FindFirstObjectByType<SceneFader>();
+        }
 
         if (sceneFader != null)
         {
@@ -41,7 +48,7 @@ public class CutsceneEndTransition : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("⚠️ SceneFader não encontrado — carregando cena diretamente...");
+            Debug.LogWarning("SceneFader não encontrado — carregando cena diretamente...");
             SceneManager.LoadScene(nextSceneName);
         }
     }

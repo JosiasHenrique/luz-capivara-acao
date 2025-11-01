@@ -1119,7 +1119,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5159246714541344306, guid: ce3cc2b03127c1e4f812d4e4555edc29, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5192827166008002828, guid: ce3cc2b03127c1e4f812d4e4555edc29, type: 3}
       propertyPath: m_IsActive
@@ -1532,7 +1532,7 @@ MonoBehaviour:
   distanciaAtordoada: 3
   distanciaCaptura: 1
   batimentoAudio: {fileID: 209861062}
-  distanciaSomMax: 10
+  distanciaSomMax: 5
 --- !u!195 &209861059
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1839,6 +1839,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2287655551728505199, guid: 5e2ab394ee6dc634490f9d1aded30793, type: 3}
+      propertyPath: m_SortingOrder
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3667640937605221235, guid: 5e2ab394ee6dc634490f9d1aded30793, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1922,6 +1926,10 @@ PrefabInstance:
     - target: {fileID: 7699076461622391609, guid: 5e2ab394ee6dc634490f9d1aded30793, type: 3}
       propertyPath: m_Name
       value: CanvasFade
+      objectReference: {fileID: 0}
+    - target: {fileID: 7699076461622391609, guid: 5e2ab394ee6dc634490f9d1aded30793, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11936,7 +11944,7 @@ Transform:
   m_GameObject: {fileID: 1795156130}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 128.95, y: 20.12, z: 5.25}
+  m_LocalPosition: {x: 130.78, y: 20.12, z: 5.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -3,10 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class MenuPrincipal : MonoBehaviour
 {
-    public SceneFader fader;
     public void IniciarJogo()
     {
-        fader.FadeToScene("PlatformCutScene");
+        SceneManager.LoadScene("PlatformCutScene");
     }
 
     public void SairJogo()

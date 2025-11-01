@@ -28,10 +28,9 @@ public class TrocarCena : MonoBehaviour
 
     private IEnumerator TrocarCenaComFade()
     {
-        // Espera um pequeno delay antes do fade (opcional)
+        // Espera um pequeno delay antes do fade
         yield return new WaitForSeconds(delayAntesDoFade);
 
-        // Se tiver SceneFader na cena, usa ele
         if (sceneFader != null)
         {
             sceneFader.FadeToScene(nomeCenaDestino);
@@ -47,7 +46,7 @@ public class TrocarCena : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("⚠️ Nenhum SceneFader encontrado! Carregando cena diretamente...");
+                Debug.LogWarning("Nenhum SceneFader encontrado! Carregando cena diretamente...");
                 SceneManager.LoadScene(nomeCenaDestino);
             }
         }

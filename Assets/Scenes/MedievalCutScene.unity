@@ -11309,7 +11309,7 @@ MonoBehaviour:
   distanciaAtordoada: 3
   distanciaCaptura: 1
   batimentoAudio: {fileID: 1030408739}
-  distanciaSomMax: 5
+  distanciaSomMax: 10
 --- !u!4 &1030408734 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1528291a5f919da4281ffe80d621d7c7, type: 3}
